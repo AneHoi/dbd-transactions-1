@@ -10,4 +10,14 @@ public class PaymentRepository : IPaymentRepository
     {
         throw new NotImplementedException();
     }
+
+    public Task<Payment> FindById(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task SaveNewPayment(Payment payment)
+    {
+        throw new NotImplementedException();
+    }
 }
