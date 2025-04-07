@@ -1,6 +1,13 @@
+using online_store.Domain.Entities;
+using online_store.Domain.Interfaces;
+
 namespace online_store.Infrastructure.Repositories;
 
-public class PaymentRepository
+public class PaymentRepository : IPaymentRepository
 {
     
+    public Task AddAsync(Payment payment)
+    {
+        throw new NotImplementedException();
+    }
 }

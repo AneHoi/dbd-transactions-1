@@ -2,7 +2,8 @@ using online_store.Domain.Entities;
 
 namespace online_store.Domain.Interfaces;
 
-public interface IPaymentRepository
+public interface IOrderRepository
 {
-    Task AddAsync(Payment payment);
+    Task AddAsync(Order order);
+    
 }
