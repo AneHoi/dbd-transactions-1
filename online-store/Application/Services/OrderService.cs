@@ -1,3 +1,4 @@
+using System.Data;
 using online_store.Application.DTOs;
 using online_store.Domain.Interfaces;
 
@@ -24,6 +25,18 @@ public class OrderService
     
     public async Task<bool> PlaceOrderAsync(PlaceOrderDTO orderDto)
     {
-        return false;
+        // begin the transaction
+        await using var transaction = await _unitOfWork.BeginTransactionAsync(IsolationLevel.Serializable);
+        try
+        {
+            // the logic
+            // 1. Check if the product exists & sufficient items are in stock
+            await _unitOfWork.CommitAsync();
+            return true;
+        } catch (Exception ex)
+        {
+            await _unitOfWork.RollbackAsync();
+            return false;
+        }
     }
 }

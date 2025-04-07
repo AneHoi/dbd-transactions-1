@@ -4,5 +4,5 @@ namespace online_store.Domain.Interfaces;
 
 public interface IPaymentRepository
 {
-    Task AddAsync(Payment payment);
+    Task<Payment?> AddAsync(Payment payment);
 }

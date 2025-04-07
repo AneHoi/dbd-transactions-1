@@ -1,4 +1,5 @@
 using System.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using online_store.Domain.Interfaces;
 using online_store.Infrastructure.Contexts;
@@ -8,29 +9,36 @@ namespace online_store.Infrastructure.UnitOfWork;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly ECommerceDbContext _context;
+    private IDbContextTransaction? _transaction;
 
     public UnitOfWork(ECommerceDbContext context)
     {
         _context = context;
     }
-
-    public async Task SaveChangesAsync()
+    
+    public async Task<IDbContextTransaction?> BeginTransactionAsync(IsolationLevel isolationLevel)
     {
-        await _context.SaveChangesAsync();
+        _transaction = await _context.Database.BeginTransactionAsync(isolationLevel);
+        return _transaction;
     }
 
-    public Task<IDbContextTransaction> BeginTransactionAsync(IsolationLevel isolationLevel)
+    public async Task CommitAsync()
     {
-        throw new NotImplementedException();
+        if (_transaction == null)
+        {
+            throw new InvalidOperationException("Transaction has not been started.");
+        }
+        await _transaction.CommitAsync();
+        await _transaction.DisposeAsync();
     }
 
-    public Task CommitAsync()
+    public async Task RollbackAsync()
     {
-        throw new NotImplementedException();
-    }
-
-    public Task RollbackAsync()
-    {
-        throw new NotImplementedException();
+        if(_transaction == null)
+        {
+            throw new InvalidOperationException("Transaction has not been started.");
+        }
+        await _transaction.RollbackAsync();
+        await _transaction.DisposeAsync();
     }
 }   

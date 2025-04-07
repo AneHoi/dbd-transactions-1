@@ -5,7 +5,7 @@ namespace online_store.Domain.Interfaces;
 
 public interface IUnitOfWork
 {
-    Task<IDbContextTransaction> BeginTransactionAsync(IsolationLevel isolationLevel);
+    Task<IDbContextTransaction?> BeginTransactionAsync(IsolationLevel isolationLevel);
     Task CommitAsync();
     Task RollbackAsync();
 }

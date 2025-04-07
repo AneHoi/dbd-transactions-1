@@ -4,5 +4,5 @@ namespace online_store.Domain.Interfaces;
 
 public interface IOrderRepository
 {
-    Task AddAsync(Order order);
+    Task<Order?> AddAsync(Order order);
 }
